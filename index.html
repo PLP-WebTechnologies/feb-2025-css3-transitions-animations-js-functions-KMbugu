@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theme Toggle App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Smooth background transition */
+    body {
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+
+    /* Button hover transition */
+    .theme-btn {
+      transition: all 0.3s ease;
+    }
+    .theme-btn:hover {
+      transform: scale(1.1);
+      background-color: #3b82f6;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Fade-in animation for button on load */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeIn 0.8s ease-out;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-900 min-h-screen flex items-center justify-center">
+  <div class="text-center">
+    <h1 class="text-3xl font-bold mb-6">Theme Toggle App</h1>
+    <button id="themeToggle" class="theme-btn fade-in px-6 py-3 bg-blue-500 text-white rounded-lg">
+      Toggle Theme
+    </button>
+  </div>
+
+  <script>
+    // Function to apply theme and trigger transition
+    function applyTheme(theme) {
+      document.body.classList.remove('bg-white', 'text-gray-900', 'bg-gray-900', 'text-white');
+      if (theme === 'dark') {
+        document.body.classList.add('bg-gray-900', 'text-white');
+      } else {
+        document.body.classList.add('bg-white', 'text-gray-900');
+      }
+    }
+
+    // Function to toggle theme and save to localStorage
+    function toggleTheme() {
+      const currentTheme = localStorage.getItem('theme') || 'light';
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      localStorage.setItem('theme', newTheme);
+      applyTheme(newTheme);
+    }
+
+    // Load saved theme on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      applyTheme(savedTheme);
+
+      // Add click event listener to toggle button
+      const themeButton = document.getElementById('themeToggle');
+      themeButton.addEventListener('click', toggleTheme);
+    });
+  </script>
+</body>
+</html>
